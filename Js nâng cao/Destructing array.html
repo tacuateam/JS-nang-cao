@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        'use strict';
+
+        const restaurant = {
+            name: 'Classico Italino',
+            location: 'Via Angelo Tavanti 23, Firenze, Italy',
+            categories: ['Italian', 'Pizzeria', 'Vegeterian', 'Organic'],
+            starterMenu: ['Focaccia', 'Brushchetta', 'Garlic Bread', 'Caprese Salad'],
+            mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+
+            //ví dụ về ứng dụng số 2: tạo 1 hàm đặt đồ ăn : order. Hàm này chỉ nhận 2 tham số 1 từ main menu và 1 từ starter menu
+            order: function( starterIndex , mainIndex ){
+                return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+            }
+        };
+        //Cách gọi biến bthg
+        const arr = [2, 3, 4];
+        const a = arr[0];
+        const b = arr[1];
+        const c = arr[2];
+        //Sử dụng pp destructuring mảng arr
+        const [x, y, z] = arr;
+        //Kiểm tra trên console bằng lệnh console.log()
+        console.log(x, y, z);
+        //Mảng ban đầu vẫn hoạt động bthg
+        console.log(arr);
+        //Sử dụng pp destructuring để lấy dữ liệu từ const restaurant ở trên:
+
+        //const [first, second] = restaurant.categories; // lấy 2 value đầu tiên của const restaurant
+        let [first, ,second] = restaurant.categories; //lấy giá trị đầu và giá trị cuối của categories bằng cách để lại một khoảng không giữa 2 giấu phẩy
+        console.log(first, second);
+        //Ứng dụng của destructuring:
+        //1. Chuyển đổi nhanh giá trị của hai biến:
+        // //without destructuring:
+        // const temp = first ;
+        // first = second;
+        // second = temp;
+        // //kiểm tra: 
+        // console.log(first, second);
+        //with destructuring
+        [first, second] = [second, first]; // giống như cách trên nhưng ko cần một biến temp để chứa giá trị tạm thời
+        console.log(first, second);
+        //2. Khiến một hàm trả về một mảng có thể ngay lập tức phân tách kết quả trả về thành các biến khác nhau (allow to return multiples values from a function)
+        //start destructuring:
+        /*kiểm tra*/ console.log(restaurant.order(2,0));
+        const [starter, main] = restaurant.order(2,0);
+        console.log(starter, main);
+        //3. với mảng trong mảng:
+        const nested = [2,4,[5,6]];
+        // const [i,,j] = nested;
+        // const [m,n] = j;
+        // console.log(m,n);
+        // rút gọn 3 dòng trên: 
+        const [i,j,[k,l]] = nested;
+        //4. đặt giá trị mặc địng cho tham số (ứng dụng khi ta lấy được 1 mảng nhưng mảng đó lại ngắn hơn const destructuring của cta):
+        const [p = 1, q = 1, r = 1] = [8,9];
+        console.log(p, q, r);
+    </script>
+</body>
+
+</html>

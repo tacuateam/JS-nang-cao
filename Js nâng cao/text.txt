@@ -1,0 +1,5 @@
+Destructure là một công cụ hữu hiệu để lấy dữ liệu từ api, là một công cụ tiện ích làm code của mình trở nên gọn gàng và tiện ích hơn
+curly brace : ngoặc nhọn
+colon: dấu :
+argument : đôi số : là giá trị thưc tế truyền vào khi gọi hàm
+iterable : là một obj có sử dụng vòng lặp /?

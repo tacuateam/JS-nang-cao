@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        'use strict';
+        //Đối tượng mẫu:
+        const restaurant = {
+            name: 'Classico Italino',
+            location: 'Via Angelo Tavanti 23, Firenze, Italy',
+            categories: ['Italian', 'Pizzeria', 'Vegeterian', 'Organic'],
+            starterMenu: ['Focaccia', 'Brushchetta', 'Garlic Bread', 'Caprese Salad'],
+            mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+            //đối tượng mẫu để làm destructure object
+            openingHours:{
+                thu: {
+                    open: 12,
+                    close: 22,
+                },
+                fri: {
+                    open:11,
+                    close:23,
+                },
+                sat: {
+                    open:0,
+                    close:24,
+                }
+            },
+            //ví dụ về ứng dụng số 2 của destruct array: tạo 1 hàm đặt đồ ăn : order. Hàm này chỉ nhận 2 tham số 1 từ main menu và 1 từ starter menu
+            order: function( starterIndex , mainIndex ){
+                return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+            },
+
+            //Ví dụ về ứng dụng đầu tiên của destruct object
+            orderDelivery: function ({starterIndex = 0, mainIndex = 0, time = '20:00', address }) { //không cần đúng thứ tự vs các properties ở dưới, có thể đặt default value
+                console.log(
+                    `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}` //Phải dùng dấu ` thay vì dấu ' ??? đéo hiểu kiểu gì  
+                );
+            },
+
+            orderPasta: function(ing1,ing2,ing3){
+                console.log(`Here is your Pasta with ${ing1}, ${ing2} and ${ing3}`);
+            },
+
+            orderPizza: function(mainIngredient, ...otherIngredient){
+                console.log(mainIngredient);
+                console.log(otherIngredient);
+            }
+        };
+
+        //Toán tử or
+        //Toán tử logic có thể sử dụng bất kì kiểu dữ liệu, có thể trả về bất cứ kiểu dữ liệu nào và chúng có thể làm đc 1 thứ gọi là Short Cỉcuiting(SC)
+        console.log ( 3 || 'Jonas'); // Trả về 3 vì js sẽ tự động chọn giá trị truthy trước nhất
+        console.log ( '' || 'Jonas'); //Jonas vì giá trị rỗng là falsy
+        console.log ( true || 0); //true, như trên
+        console.log ( undefined || null); //nếu tất cả đều là giá trị falsy thì giá trị trả về sẽ là giá trị sau cùng
+
+        console.log(undefined || 0 || '' || 'Hello' || 23 || null);
+
+        //Chúng ta còn có thể sử dụng or để thay thế toán tử 3 ngôi trong vài th:
+        restaurant.numGuests = 23;
+        const guests1 = restaurant.numGuests ? restaurant.numGuests : 10; 
+        console.log(guests1);
+
+        const guests2 = restaurant.numGuests || 10;
+        console.log(guests2);
+
+        //Nullish: trả về null và undefined (0 or '')
+        const guestCorrect = restaurant.numGuests ?? 10;
+        console.log(guests);
+
+        //Toán tử and sẽ ngược lại với quy luật của or
+        console.log(0 && 'Jonas');
+        console.log(7 && 'Jonas');
+        //Vd thực tiễn
+        if (restaurant.orderPizza) {
+            restaurant.orderPizza('mushrooms', 'spinach')
+        }
+
+        restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach');
+
+
+    </script>

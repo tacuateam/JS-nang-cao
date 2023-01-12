@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        'use strict';
+        //Đối tượng mẫu:
+        const restaurant = {
+            name: 'Classico Italino',
+            location: 'Via Angelo Tavanti 23, Firenze, Italy',
+            categories: ['Italian', 'Pizzeria', 'Vegeterian', 'Organic'],
+            starterMenu: ['Focaccia', 'Brushchetta', 'Garlic Bread', 'Caprese Salad'],
+            mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+            //đối tượng mẫu để làm destructure object
+            openingHours:{
+                thu: {
+                    open: 12,
+                    close: 22,
+                },
+                fri: {
+                    open:11,
+                    close:23,
+                },
+                sat: {
+                    open:0,
+                    close:24,
+                }
+            },
+            //ví dụ về ứng dụng số 2 của destruct array: tạo 1 hàm đặt đồ ăn : order. Hàm này chỉ nhận 2 tham số 1 từ main menu và 1 từ starter menu
+            order: function( starterIndex , mainIndex ){
+                return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+            },
+
+            //Ví dụ về ứng dụng đầu tiên của destruct object
+            orderDelivery: function ({starterIndex = 0, mainIndex = 0, time = '20:00', address }) { //không cần đúng thứ tự vs các properties ở dưới, có thể đặt default value
+                console.log(
+                    `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}` //Phải dùng dấu ` thay vì dấu ' ??? đéo hiểu kiểu gì  
+                );
+            },
+
+            orderPasta: function(ing1,ing2,ing3){
+                console.log(`Here is your Pasta with ${ing1}, ${ing2} and ${ing3}`);
+            },
+
+            orderPizza: function(mainIngredient, ...otherIngredient){
+                console.log(mainIngredient);
+                console.log(otherIngredient);
+            }
+        };
+  
+        restaurant.orderDelivery({
+            time: '22:30',
+            address: 'Via del Sole, 21',
+            mainIndex: 2,
+            starterIndex: 2,
+        })
+
+        //Rest pattern có vai trò gộp các thành phần riêng lẻ lại thành một mảng\
+        //Đây là SO vì dấu .. ở sau dấu bằng
+        const arr = [1, 2, ...[3,4,5]];
+        //Đây là Rest pattern (RP) vì dấu ... ở trc dấu bằng
+        const [a, b, ...others] = [1, 2, 3, 4, 5];
+        console.log(a, b, others);
+        //Ví dụ 1:
+        const [Pizza, ,Risotto, ...othersFood] = [...restaurant.mainMenu, ...restaurant.starterMenu]
+        console.log(Pizza, Risotto, othersFood); //RP chỉ gộp các thành phần còn lại sau biến cuối cùng, các thành phần để trống sẽ ko đc lấy, chỉ có thể dùng RP 1 lần trong cấu trúc destruct
+
+        //Objects RP: các element còn lại sẽ đc gộp thành 1 obj chứ kp 1 mảng 
+        const {sat, ...weekdays} = restaurant.openingHours;
+        console.log(weekdays); //Chỉ hiển thị các ngày trừ thứ 7 
+
+        //Truyền nhiều tham số vào 1 hàm cùng lúc
+        const add = function(...numbers){ // => numbers ở đây sẽ đc gọi là rest argument
+            // console.log(...numbers); //Với RP, giờ cta có thể truyền vào bn tham số cx đc mà kp lo về việc thừa ỏ thiếu tham số
+            let sum = 0; 
+            for (let i = 0; i<numbers.length; i++){
+                sum += numbers[i];
+                console.log(sum);
+            }
+        };
+        add (2, 3);
+        add (5, 3, 7, 2);
+        add (8, 5 ,3, 2, 1, 4);
+
+        //Ví dụ về sự dối nghịch của SO và RP:
+        const x = (23, 5, 7); //SO
+        add(...x); //RP
+
+        //VD3
+        restaurant.orderPizza('mushroom', 'onion', 'olives', 'spinach');
+        restaurant.orderPizza('mushroom'); //=> console  vẫn chỉ hiện mushroom 
+    </script>
+</body>
+
+</html>

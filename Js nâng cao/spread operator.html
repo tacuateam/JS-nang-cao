@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        'use strict';
+        //Đối tượng mẫu:
+        const restaurant = {
+            name: 'Classico Italino',
+            location: 'Via Angelo Tavanti 23, Firenze, Italy',
+            categories: ['Italian', 'Pizzeria', 'Vegeterian', 'Organic'],
+            starterMenu: ['Focaccia', 'Brushchetta', 'Garlic Bread', 'Caprese Salad'],
+            mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+            //đối tượng mẫu để làm destructure object
+            openingHours:{
+                thu: {
+                    open: 12,
+                    close: 22,
+                },
+                fri: {
+                    open:11,
+                    close:23,
+                },
+                sat: {
+                    open:0,
+                    close:24,
+                }
+            },
+            //ví dụ về ứng dụng số 2 của destruct array: tạo 1 hàm đặt đồ ăn : order. Hàm này chỉ nhận 2 tham số 1 từ main menu và 1 từ starter menu
+            order: function( starterIndex , mainIndex ){
+                return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+            },
+
+            //Ví dụ về ứng dụng đầu tiên của destruct object
+            orderDelivery: function ({starterIndex = 0, mainIndex = 0, time = '20:00', address }) { //không cần đúng thứ tự vs các properties ở dưới, có thể đặt default value
+                console.log(
+                    `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}` //Phải dùng dấu ` thay vì dấu ' ??? đéo hiểu kiểu gì  
+                );
+            },
+
+            orderPasta: function(ing1,ing2,ing3){
+                console.log(`Here is your Pasta with ${ing1}, ${ing2} and ${ing3}`);
+            }
+
+        };
+  
+        restaurant.orderDelivery({
+            time: '22:30',
+            address: 'Via del Sole, 21',
+            mainIndex: 2,
+            starterIndex: 2,
+        })
+
+        //Thông thường khi muốn mở rộng 1 mảng thì nó sẽ rất dài như này: 
+        //vd: cta muốn thêm số 7,8 đằng trước mảng arr
+        const arr = [1,2,3];
+        const oldMethod = [7, 8, arr[0], arr[1], arr[2]];
+        console.log(oldMethod); //ktra
+        //But now with spread operator: 
+        const newMethod = [7, 8, ...arr];
+        console.log(newMethod); // => Spread operator ở đây sẽ lấy ra các giá trị của mảng arr giống như là cta viết 1 2 3 một cách thủ công
+        // Nếu cta ko viết dấu 3 chấm thì mảng arr sẽ trở thành mảng con của mảng newMethod. VD:
+        const nestarr = [7,8,arr];
+        console.log(nestarr); 
+        // => Spread Operator(SO) chỉ lấy ra các giá trị của mảng chứ ko phải lấy toàn bộ mảng => dùng SO khi muốn ghi thêm giá trị lên một mảng có sẵn
+        console.log(...newMethod); //Một ứng dụng nữa là bất cứ khi nào muốn lấy ra 1 phần tử trong mảng thì có thể dùng SO
+
+        const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+        //SO gần giống vs destructure nhưng SO sẽ lấy ra toàn bộ giá trị chứ ko lấy ra đc từng giá trị riêng lẻ như destructure, thứ 2: SO lấy dữ liệu mà ko cần thêm biến nào mới, thứ 3: SO chỉ có thể đặt vào các chỗ để giá trị đc cách biệt bởi dấu phẩy
+
+        //Copy array
+        const mainMenucopy = [...restaurant.mainMenu];
+
+        //Join array
+        const menu = [...restaurant.mainMenu, ...restaurant.starterMenu];
+
+        //Iterables: String, maps, array, set but not obj ?????
+        //vd1: string
+        const str = 'Jonas';
+        const Letters = [...str, '', '.S'];
+        console.log(Letters); //Console sẽ hiển thị ra từng chữ cái của chuỗi 
+        //console.log(`${...str} Schmedtman`);  
+        // VD thực tế
+        const ingredients = [prompt("Let's make pasta! Ingredient 1?"), prompt('Ingredient 2?'), prompt('ingredient 3?')];
+        console.log(ingredients);
+        restaurant.orderPasta(...ingredients);
+
+        // SO Object
+        const newRestaurant = {foundedIn: 1981,...restaurant, founder: 'Guiseppe'}; //Với SO, cta có thể copy hết toàn bộ các property của obj restaurant cũ và gán nó cho obj newRestaurant. Thậm chí cta còn có thể thêm các thuộc tính mới cho obj cũ 
+        console.log(newRestaurant);
+        //Sửa obj
+        const restaurantCopy = {...restaurant};
+        restaurantCopy.name = 'Roma';
+        console.log(restaurantCopy.name);
+        console.log(restaurant.name);
+    </script>
+</body>
+
+</html>
