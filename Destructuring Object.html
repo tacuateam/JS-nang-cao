@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        'use strict';
+        //Đối tượng destructure mẫu:
+        const restaurant = {
+            name: 'Classico Italino',
+            location: 'Via Angelo Tavanti 23, Firenze, Italy',
+            categories: ['Italian', 'Pizzeria', 'Vegeterian', 'Organic'],
+            starterMenu: ['Focaccia', 'Brushchetta', 'Garlic Bread', 'Caprese Salad'],
+            mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+            //đối tượng mẫu để làm destructure
+            openingHours:{
+                thu: {
+                    open: 12,
+                    close: 22,
+                },
+                fri: {
+                    open:11,
+                    close:23,
+                },
+                sat: {
+                    open:0,
+                    close:24,
+                }
+            },
+            //ví dụ về ứng dụng số 2 của destruct array: tạo 1 hàm đặt đồ ăn : order. Hàm này chỉ nhận 2 tham số 1 từ main menu và 1 từ starter menu
+            order: function( starterIndex , mainIndex ){
+                return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+            },
+
+            //Ví dụ về ứng dụng đầu tiên của destruct object
+            orderDelivery: function ({starterIndex = 0, mainIndex = 0, time = '20:00', address }) { //không cần đúng thứ tự vs các properties ở dưới, có thể đặt default value
+                console.log(
+                    `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}` //Phải dùng dấu ` thay vì dấu ' ??? đéo hiểu kiểu gì  
+                );
+            },
+
+        };
+  
+        restaurant.orderDelivery({
+            time: '22:30',
+            address: 'Via del Sole, 21',
+            mainIndex: 2,
+            starterIndex: 2,
+        })
+        //Destructuring object
+        //Cách thực hiện: đầu tiên, bắt đầu bằng dấu ngoặc nhọn sau đó cung cấp tên biến trùng vs tên thuộc tính mà mình muốn lấy của object
+        //ví dụ: cta sẽ lấy thuộc tính name categories và opening hours để mô phỏng
+        const {name, openingHours, categories} = restaurant; //Vị trí các property khi détructure object ko quan trọng
+        console.log(name, openingHours, categories); // kiểm tra các biến vừa lấy ra
+
+        // Nếu muốn đặt tên biến kahcs với tên thuộc tính: (hữu ích khi nhận đc data từ bên thứ 3 và mình muốn sửa tên biến theo ý mình)
+        const {name: restaurantName, openingHours: hours, categories: tags} = restaurant;
+        console.log(restaurantName, hours, tags); //ktra
+
+        //Đặt default value: như với destruct array
+        const { menu = [], starterMenu: starters = [] } = restaurant;
+        console.log(menu, starters); // menu chưa được khai báo nên nếu ko để default values thì nó sẽ trở thành undefine
+
+        //Đổi biến số
+        let a = 111;
+        let b = 999;
+        const obj = {a : 23, b: 7, c: 14};
+        ({a,b} = obj); // bthg khi destruct ko yc dùng dấu ngoặc đơn nhưng vì js sẽ coi đấy là 1 code block và nó sẽ ko gán đc bất cứ giá trị gì cho khối code đó
+        console.log(a,b);
+
+        //Destruct Obj trong obj (nested object)
+        const { fri: { open: o, close: c } } = openingHours;
+        console.log(o, c);
+    </script>
+</body>
+
+</html>

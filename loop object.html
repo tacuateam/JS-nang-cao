@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        'use strict';
+        const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+        //Đối tượng mẫu:
+        const openingHours = {
+                [weekdays[3]]: {
+                    open: 12,
+                    close: 22,
+                },
+                [weekdays[4]]: {
+                    open:11,
+                    close:23,
+                },
+                [weekdays[5]]: {
+                    open:0,
+                    close:24,
+                }
+            };
+
+        const restaurant = {
+            name: 'Classico Italino',
+            location: 'Via Angelo Tavanti 23, Firenze, Italy',
+            categories: ['Italian', 'Pizzeria', 'Vegeterian', 'Organic'],
+            starterMenu: ['Focaccia', 'Brushchetta', 'Garlic Bread', 'Caprese Salad'],
+            mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+            //đối tượng mẫu để làm destructure object
+            //ES6 enhanced object literals
+            openingHours,
+            //ví dụ về ứng dụng số 2 của destruct array: tạo 1 hàm đặt đồ ăn : order. Hàm này chỉ nhận 2 tham số 1 từ main menu và 1 từ starter menu
+            order( starterIndex , mainIndex ){
+                return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+            },
+
+            //Ví dụ về ứng dụng đầu tiên của destruct object
+            orderDelivery ({starterIndex = 0, mainIndex = 0, time = '20:00', address }) { //không cần đúng thứ tự vs các properties ở dưới, có thể đặt default value
+                console.log(
+                    `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}` //Phải dùng dấu ` thay vì dấu ' ??? đéo hiểu kiểu gì  
+                );
+            },
+
+            orderPasta(ing1,ing2,ing3){
+                console.log(`Here is your Pasta with ${ing1}, ${ing2} and ${ing3}`);
+            },
+
+            orderPizza(mainIngredient, ...otherIngredient){
+                console.log(mainIngredient);
+                console.log(otherIngredient);
+            }
+        };
+
+        const properties = Object.keys(openingHours);
+        console.log(properties);
+
+        // console.log(`We are open on ${properties.length} days`);
+        let openStr = `We are open on ${properties.length} days`;
+        for (const day of properties) {
+            // console.log(day);
+            openStr += `${day}`;
+        } 
+        console.log(openStr);
+
+        //property values
+        const values = Object.values(openingHours);
+        console.log(values);
+
+        //entire object
+        const entries = Object.entries(openingHours);
+        // console.log(entries);
+        
+        //key value
+        for (const [day, { open, close }] of entries){
+            console.log(`On ${key} we open at ${open} and close at ${close}`)
+        }
+        </script>
